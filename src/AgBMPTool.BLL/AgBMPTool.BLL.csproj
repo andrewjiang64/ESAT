@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+
+    <PackageReference Include="morelinq" Version="3.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="1.15.4" />
+    <PackageReference Include="NetTopologySuite.IO.ShapeFile" Version="1.15.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AgBMPTool.DBModel\AgBMPTool.DBModel.csproj" />
+    <ProjectReference Include="..\AgBMTool.DBL\AgBMTool.DBL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="lpsolve55.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

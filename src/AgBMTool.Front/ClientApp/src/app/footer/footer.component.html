@@ -1,0 +1,9 @@
+<footer class="back-ground-color" style="text-align:right; width:100%; bottom: 0; position: absolute;">
+   <font class="font-color">© 2019 <a href="https://www.uoguelph.ca/" style="color:white">University of Guelph</a><font (click)="showDialog = !showDialog" style="cursor: pointer;"> Copyright and Disclaimer</font></font>
+</footer>
+
+
+<app-dialog [(visible)]="showDialog">
+  <h1>Copyright and Disclaimer</h1>
+  <button (click)="showDialog = !showDialog" class="btn">Close</button>
+</app-dialog>

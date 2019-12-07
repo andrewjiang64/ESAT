@@ -1,0 +1,41 @@
+
+h2 {
+  color: darkblue;
+}
+
+#map {
+  height: 300px;
+  width: 100%;
+}
+
+.container {
+  background: lightgray;
+  padding: 10px;
+  margin: 10px;
+}
+
+label.checkbox {
+  padding-left: 20px;
+}
+
+#dropdown {
+  z-index: 1;
+  padding: 10px;
+  background-color: lightgray;
+  border-radius: 5px;
+  position: absolute;
+  right: calc(5% + 160px);
+  bottom: 30px
+}
+
+#rightarrow {
+  z-index: 2;
+  position: absolute;
+  left: 15px;
+}
+
+#legenddropdown {
+  background-color: lightgray;
+  height:270px;
+  overflow:auto
+}

@@ -1,0 +1,101 @@
+<div class="row">
+  <div [ngClass]='displayMiddleDivClass' id="baselineMiddleDiv" style="padding-right:0px;">
+    <div class="row height-60">
+      <div class="col-md-12" [style.height.px]="baseLineInfoMapHeight">
+        <button type="button" class="btn btn-sm rightDivBtn" (click)="showHideRightPanel()">{{buttonText}}</button>
+        <app-map></app-map>
+      </div>
+    </div>
+    <div class="row height-40">
+      <div class="col-md-12">
+        <div *ngIf="!this.progressBarSummaryGridData" align="center" class="loadingDiv" [style.height.px]="baseLineInfoGridHeight">
+          <span class="k-icon k-i-loading" style="font-size: 50px;"></span>
+        </div>
+        <kendo-grid [data]="summaryGridData" (scrollBottom)="loadMore()"
+                    [style.height.px]="baseLineInfoGridHeight" [pageable]="false" [sortable]="true" [filterable]="false"
+                    [selectable]="{ mode: 'single' }" [kendoGridSelectBy]="'id'" [selectedKeys]="selectRowById" (selectedKeysChange)="onSelectedKeysChange($event)"
+                    style="font-size:x-small">
+          <kendo-grid-column *ngFor="let column of summaryGridColumns" field="{{column.fieldName}}" title="{{column.fieldTitle}}" filter="{{column.fieldType}}"
+                             [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}" [width]="90">
+          </kendo-grid-column>
+
+        </kendo-grid>
+      </div>
+    </div>
+
+  </div>
+  <div [ngClass]='displayRightDivClass'>
+    <div class="row">
+      <div class="col-md-12 padding-top-10">
+        Spatial Scale
+      </div>
+      <div class="col-md-12">
+        <kendo-dropdownlist [data]="summarizationTypeList" [textField]="'itemName'" [valueField]="'itemId'" [valuePrimitive]="true" [(ngModel)]="summarizationDropdownSelectedValue" class="inputWidth" (valueChange)="summarizationTypeChange($event)"></kendo-dropdownlist>
+      </div>
+    </div>
+    <div *ngIf="showLocationFilter">
+      <div class="row padding-top-10">
+        <div class="col-md-12">
+          Location filter
+        </div>
+      </div>
+      <div class="row padding-top-10">
+        <div class="col-md-5">
+          Municipality
+        </div>
+        <div class="col-md-7">
+          <kendo-dropdownlist [data]="municipalityList" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" [(ngModel)]="municipalitySelectedItem"
+                              class="inputWidth" (valueChange)="municipalityChange($event)"></kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row padding-top-10">
+        <div class="col-md-5">
+          Watershed
+        </div>
+        <div class="col-md-7">
+          <kendo-dropdownlist [data]="watershedList" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" [(ngModel)]="watershedSelectedItem"
+                              class="inputWidth" (valueChange)="watershedChange($event)"></kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row padding-top-10">
+        <div class="col-md-5">
+          Subwatershed
+        </div>
+        <div class="col-md-7">
+          <kendo-dropdownlist [data]="subWatershedList" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" [(ngModel)]="subWatershedSelectedItem"
+                              class="inputWidth" (valueChange)="subWatershedChange($event)"></kendo-dropdownlist>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 padding-top-10">
+        Baseline BMP summary <sup title="Baseline BMP summary">(?)</sup>
+        <kendo-grid [data]="baselineBMPSummaryGridData" [style.height.px]="baselineBMPSummaryGridHeight" id="baselineBMPSummaryGrid" [pageable]=false [sortable]=true style="font-size:x-small" [filterable]="false">
+          <kendo-grid-column field="id" [hidden]="true" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          <kendo-grid-column field="bmp" title="BMP" [width]="70" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}">
+            <ng-template kendoGridFooterTemplate let-column let-columnIndex="columnIndex">
+              Total cost ($/yr)
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="count" title="Count" [width]="50" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          <kendo-grid-column field="area" title="Area (ha)" [width]="60" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          <kendo-grid-column field="cost" title="Cost ($/ha)" [width]="60" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}">
+            <ng-template kendoGridFooterTemplate let-column="col" let-columnIndex="columnIndex">{{totalCostBMPSummaryGridData}}</ng-template>
+          </kendo-grid-column>
+
+        </kendo-grid>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 padding-top-10">
+        BMP effectiveness summary <sup title="BMP effectiveness summary">(?)</sup>
+        <kendo-grid [data]="baselineBMPEffectivenessGridData" [style.height.px]="baselineBMPEffectivenessGridHeight" id="baselineBMPEffectivenessGrid" [pageable]=false [sortable]=true style="font-size:x-small" [filterable]="false">
+          <kendo-grid-column field="id" [hidden]="true" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          <kendo-grid-column field="parameter" title="Parameter" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          <kendo-grid-column field="value" title="Value" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+</div>

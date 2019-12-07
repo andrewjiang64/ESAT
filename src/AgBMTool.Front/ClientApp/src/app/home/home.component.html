@@ -1,0 +1,15 @@
+<app-head></app-head>
+<div style="height:85vh">
+  <div class="row" style="margin-right: 0; height:100%">
+    <div id="treeview" [hidden] = "hiddentreeview" class="col-sm-3" style="background-color:#f2f2f2;overflow:auto; height:100%">
+      <i class="fa fa-angle-double-left" style="font-size:24px; z-index:2; position: absolute;
+  right: 2px;" (click)="hiddentreeviewfunction()"></i>
+      <app-treeview></app-treeview>
+    </div>
+    <div id="mainrightdiv" [ngClass]="hiddentreeview ? 'col-sm-12' : 'col-sm-9'">
+      <router-outlet>
+      </router-outlet>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

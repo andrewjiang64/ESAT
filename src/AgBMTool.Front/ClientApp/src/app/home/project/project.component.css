@@ -1,0 +1,47 @@
+kendo-grid {
+  min-height: 80%;
+}
+
+  kendo-grid .k-grid-content {
+    min-height: 80%;
+  }
+
+html,
+body,
+#projectGrid {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  height: 100%; /* DO NOT USE !important for setting the Grid height! */
+}
+
+.rowPadding {
+  padding: 5px;
+}
+
+.colPadding {
+  padding: 0px;
+}
+
+.inputWidth {
+  width: 100%;
+}
+
+
+.background {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.addproject {
+  padding: 0px 0px 0px 10px;
+  color: white;
+  margin-top: -1px;
+  border-top-left-radius: 0px;
+  background-color: #4472c4;
+}
+
+.k-grid .k-grid-content td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

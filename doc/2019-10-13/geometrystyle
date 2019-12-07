@@ -1,0 +1,30 @@
+CREATE TABLE public."GeometryLayerStyle"
+(
+    "Id" integer NOT NULL DEFAULT nextval('"GeometryLayerStyle_Id_seq"'::regclass),
+    layername text COLLATE pg_catalog."default",
+    type text COLLATE pg_catalog."default",
+    style text COLLATE pg_catalog."default",
+    color text COLLATE pg_catalog."default",
+    simplelinewidth text COLLATE pg_catalog."default",
+    outlinecolor text COLLATE pg_catalog."default",
+    outlinewidth text COLLATE pg_catalog."default",
+    CONSTRAINT "PK_GeometryLayerStyle" PRIMARY KEY ("Id")
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public."GeometryLayerStyle"
+    OWNER to postgres;
+	
+	
+	
+INSERT INTO public."GeometryLayerStyle"( layername, type, style, color, simplelinewidth, outlinecolor, outlinewidth)
+	VALUES ('Parcel','simple-fill', 'vertical','rgb(158, 0, 0, 0.6)', '', 'white',  '1'),
+('LSD','simple-fill', 'horizontal','purple', '', 'white',  '1'),
+('Reach','simple-line', '','blue', '4', '',  '') ,
+('Farm','simple-fill', 'horizontal','purple', '', 'white',  '1') ,
+('Municipality','simple-fill', 'diagonal-cross','blue', '', 'white',  '1') ,
+('SubWaterShed','simple-fill', 'cross','yellow', '', 'white',  '1') ,
+('WaterShed','simple-fill', 'backward-diagonal','purple', '', 'white',  '1');

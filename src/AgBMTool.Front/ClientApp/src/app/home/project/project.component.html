@@ -1,0 +1,135 @@
+<div class="row">
+  <div class="col-md-4">
+    <div>
+      <h5>Project list</h5>
+      <ng-template #template let-anchor>
+        <span>{{ getItem(anchor) }}</span>
+      </ng-template>
+      <div kendoTooltip showOn="none" [tooltipTemplate]="template" filter=".k-grid" (mouseover)="showTooltip($event)">
+        <kendo-grid [data]="gridView" [style.height.px]="projectGridHeight" id="projectGrid" [pageSize]="pageSize" [skip]="skip" [pageable]=true (pageChange)="pageChange($event)" [sortable]="true" [filterable]="false">
+          <kendo-grid-column field="id" [hidden]="true"></kendo-grid-column>
+          <kendo-grid-column field="description" [hidden]="true"></kendo-grid-column>
+          <kendo-grid-column field="createdDate" title="Date">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              {{dataItem.createdDate | date: 'yyyy-MM-dd'}}
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="name" title="Title"></kendo-grid-column>
+          <kendo-grid-column field="Active" title="" [width]="50">
+            <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+              <a (click)="CallBaselineInfo(this.dataItem.id)" class="k-icon k-i-check k-i-checkmark" style="color: green; cursor: pointer;"></a>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Delete" title="" [width]="50">
+            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+              <div (click)="onOpenDeleteModel(this.rowIndex)">
+                <span class="k-icon k-i-delete k-i-trash" style="color:red;"></span>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+        </kendo-grid>
+      </div>
+    </div>
+    <div align="center" style="padding: 10px 0px 10px 0px;">
+      <button type="button" class="btn btn-primary btn-sm btn-block width-60" (click)="openModal()">+ Add New Project</button>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <app-chart></app-chart>
+  </div>
+</div>
+
+<div class="backdrop" [ngStyle]="{'display':displayModel}"></div>
+<div class="modal background" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
+  <div class="modal-dialog" role="document" style="top: 10%; max-width:50%;">
+    <div class="modal-content">
+      <div class="modal-header addproject">
+        Add new project
+        <button type="button" class="btn btn-primary btn-sm" style="background-color: black; color: white; border: 0px;" aria-label="Close" (click)="onCloseHandled()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row rowPadding">
+          <div class="col-md-2">
+            Title
+          </div>
+          <div class="col-md-10">
+            <input kendoTextBox [(ngModel)]="title" class="inputWidth" />
+          </div>
+        </div>
+        <div class="row rowPadding">
+          <div class="col-md-2">
+            Description
+          </div>
+          <div class="col-md-10">
+            <textarea kendoTextArea [(ngModel)]="description" class="inputWidth"></textarea>
+          </div>
+        </div>
+        <div class="row rowPadding">
+          <div class="col-md-2">
+            Scope
+          </div>
+          <div class="col-md-4">
+            <kendo-dropdownlist [data]="summarizationTypeList" [textField]="'itemName'" [valueField]="'itemId'" [valuePrimitive]="true" [(ngModel)]="summarizationTypeSelectedItem" class="inputWidth" (selectionChange)="SummarizationTypeChange($event)"></kendo-dropdownlist>
+          </div>
+          <div class="col-md-2 colPadding">
+            Baseline <sup title="Baseline">(?)</sup>
+          </div>
+          <div class="col-md-4">
+            <kendo-dropdownlist [data]="baselineList" textField="itemName" valueField="itemId" [valuePrimitive]="true" [(ngModel)]="baselineSelectedItem" class="inputWidth"></kendo-dropdownlist>
+          </div>
+        </div>
+        <div class="row rowPadding">
+          <div class="col-md-2"></div>
+          <div class="col-md-4">
+            <kendo-multiselect [data]="scopeList" [textField]="'name'" [valueField]="'id'" [(ngModel)]="scopeListSelectedItem" class="inputWidth" (valueChange)="scopeListChange($event)"></kendo-multiselect>
+          </div>
+          <div class="col-md-2 colPadding">
+            Spatial Unit <sup title="Spatial Unit">(?)</sup>
+          </div>
+          <div class="col-md-4">
+            <kendo-dropdownlist [data]="spatialUnits" textField="name" valueField="id" [valuePrimitive]="true" [(ngModel)]="spatialUnitSelectedItem" class="inputWidth"></kendo-dropdownlist>
+          </div>
+        </div>
+        <div class="row rowPadding">
+          <div class="col-md-6"></div>
+          <div class="col-md-4 colPadding">
+            Start and end year <sup title="Start and end year">(?)</sup>
+          </div>
+        </div>
+        <div class="row rowPadding">
+          <div class="col-md-6"></div>
+          <div class="col-md-6 colPadding">
+            <!--<div id="slider"></div>-->
+            <ng5-slider [(value)]="minYear" [(highValue)]="maxYear" [options]="sliderOption"></ng5-slider>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 4px;">
+        <button type="button" class="btn btn-default" (click)="onCloseHandled()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="AddProject()" style="padding: 5px;">Add Project</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->
+
+
+<div class="backdrop" [ngStyle]="{'display':displayDeleteModel}"></div>
+<div class="modal background" tabindex="-1" role="dialog" [ngStyle]="{'display':displayDeleteModel}">
+  <div class="modal-dialog" role="document" style="top: 10%; max-width:25%;">
+    <div class="modal-content">
+      <div class="modal-header addproject">
+        Delete project
+        <button type="button" class="btn btn-primary btn-sm" style="background-color: black; color: white; border: 0px;" aria-label="Close" (click)="onCloseDeleteModel()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="row rowPadding">
+          Are you sure, you want to delete project?
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 4px;">
+        <button type="button" class="btn btn-default" (click)="onCloseDeleteModel()">No</button>
+        <button type="button" class="btn btn-primary" (click)="DeleteProject()" style="padding: 5px; width: 60px;">Yes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal !-->

@@ -1,0 +1,29 @@
+ALTER TABLE public."Project"
+    ADD COLUMN "Active" boolean NOT NULL default(true);
+	
+ALTER TABLE public."Project"
+    ADD COLUMN "UserId" integer NOT NULL DEFAULT 1;
+	
+ALTER TABLE public."Project"
+    ADD COLUMN "ScenarioTypeId" integer NOT NULL;
+
+INSERT INTO public."Project"(
+	"Id", "Name", "Description", "Created", "Modified", "StartYear", "EndYear", "ScenarioId", "ProjectSpatialUnitTypeId", "Active", "UserId", "ScenarioTypeId")
+	VALUES (1, 'Demo Project', 'This is demo project', '0001-01-01 00:00:00', '0001-01-01 00:00:00', 2014, 2020, 1, 2, true, 1, 1);
+
+
+INSERT INTO public."ProjectMunicipalities"(
+	"Id", "ProjectId", "MunicipalityId")
+	VALUES (1, 1, 1);
+
+INSERT INTO public."ProjectWatersheds"(
+	"Id", "ProjectId", "WatershedId")
+	VALUES (1, 1, 1);
+
+INSERT INTO public."UserMunicipalities"(
+	"Id", "UserId", "MunicipalityId")
+	VALUES (1, 1, 1);
+
+INSERT INTO public."UserWatersheds"(
+	"Id", "UserId", "WatershedId")
+	VALUES (1, 1, 1);

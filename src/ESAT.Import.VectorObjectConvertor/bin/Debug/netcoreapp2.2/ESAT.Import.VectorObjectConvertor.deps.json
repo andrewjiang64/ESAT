@@ -1,0 +1,179 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.2",
+    "signature": "2619642350117cee795ed9a31fa6fdd1dbdae2cc"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.2": {
+      "ESAT.Import.VectorObjectConvertor/1.0.0": {
+        "dependencies": {
+          "GeoAPI": "1.7.5",
+          "NetTopologySuite.IO.ShapeFile": "1.15.3",
+          "ProjNET4GeoAPI": "1.4.1"
+        },
+        "runtime": {
+          "ESAT.Import.VectorObjectConvertor.dll": {}
+        }
+      },
+      "GeoAPI/1.7.5": {
+        "dependencies": {
+          "GeoAPI.CoordinateSystems": "1.7.5",
+          "GeoAPI.Core": "1.7.5"
+        }
+      },
+      "GeoAPI.CoordinateSystems/1.7.5": {
+        "dependencies": {
+          "GeoAPI.Core": "1.7.5"
+        },
+        "runtime": {
+          "lib/netstandard2.0/GeoAPI.CoordinateSystems.dll": {
+            "assemblyVersion": "1.7.5.0",
+            "fileVersion": "1.7.5.0"
+          }
+        }
+      },
+      "GeoAPI.Core/1.7.5": {
+        "runtime": {
+          "lib/netstandard2.0/GeoAPI.dll": {
+            "assemblyVersion": "1.7.5.0",
+            "fileVersion": "1.7.5.0"
+          }
+        }
+      },
+      "NetTopologySuite.Core/1.15.0": {
+        "dependencies": {
+          "GeoAPI.Core": "1.7.5"
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/NetTopologySuite.dll": {
+            "assemblyVersion": "1.15.0.0",
+            "fileVersion": "1.15.0.0"
+          }
+        }
+      },
+      "NetTopologySuite.Features/1.15.0": {
+        "dependencies": {
+          "GeoAPI": "1.7.5"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.Features.dll": {
+            "assemblyVersion": "1.15.0.0",
+            "fileVersion": "1.15.0.0"
+          }
+        }
+      },
+      "NetTopologySuite.IO.ShapeFile/1.15.3": {
+        "dependencies": {
+          "NetTopologySuite.Core": "1.15.0",
+          "NetTopologySuite.Features": "1.15.0",
+          "System.Text.Encoding.CodePages": "4.4.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/NetTopologySuite.IO.GeoTools.dll": {
+            "assemblyVersion": "1.15.0.0",
+            "fileVersion": "1.15.0.0"
+          },
+          "lib/netstandard2.0/NetTopologySuite.IO.ShapeFile.Extended.dll": {
+            "assemblyVersion": "1.15.0.0",
+            "fileVersion": "1.15.0.0"
+          },
+          "lib/netstandard2.0/NetTopologySuite.IO.ShapeFile.dll": {
+            "assemblyVersion": "1.15.0.0",
+            "fileVersion": "1.15.0.0"
+          }
+        }
+      },
+      "ProjNET4GeoAPI/1.4.1": {
+        "dependencies": {
+          "GeoAPI.CoordinateSystems": "1.7.5"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ProjNET.dll": {
+            "assemblyVersion": "1.4.0.0",
+            "fileVersion": "1.4.0.0"
+          }
+        }
+      },
+      "System.Text.Encoding.CodePages/4.4.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {
+            "assemblyVersion": "4.1.0.0",
+            "fileVersion": "4.6.25519.3"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.0/System.Text.Encoding.CodePages.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.1.0.0",
+            "fileVersion": "4.6.25519.3"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ESAT.Import.VectorObjectConvertor/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "GeoAPI/1.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LAHPEztEGuR3LGtnNYOqg2JvUaw449gcACYqmy1pr129R2cWaV+Q9Lne8YgEwCnksHCVoXyQmuKY+CvsgPYmng==",
+      "path": "geoapi/1.7.5",
+      "hashPath": "geoapi.1.7.5.nupkg.sha512"
+    },
+    "GeoAPI.CoordinateSystems/1.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JBcvkeQFjCW9NTfkII5WiJNmnv0ZtYA/VTVljbIqDFWBJ8kHwu2UHd2MVStD/VVHVnLoyNcDIapsuTENdlyF3g==",
+      "path": "geoapi.coordinatesystems/1.7.5",
+      "hashPath": "geoapi.coordinatesystems.1.7.5.nupkg.sha512"
+    },
+    "GeoAPI.Core/1.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Dy/YkgZ1szgx+xbVWqMi+4++Fm6v3szbVdei1LKPRZ3meSvgNSMZxqhar5IAeaTj5LcUHLtLGdfyUtkjnYbg3A==",
+      "path": "geoapi.core/1.7.5",
+      "hashPath": "geoapi.core.1.7.5.nupkg.sha512"
+    },
+    "NetTopologySuite.Core/1.15.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SMhtTQYfpgHq9+0X9cwcLfUZlUWkmzK2OODHLMjX5KbSLP99xvCAF95CfZ4hnsI7K6qvezOQXbIKJpYdr7yKmg==",
+      "path": "nettopologysuite.core/1.15.0",
+      "hashPath": "nettopologysuite.core.1.15.0.nupkg.sha512"
+    },
+    "NetTopologySuite.Features/1.15.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rmN6k0iSYFig/UmyMidv+u1iTCoUwJ38oNHKz6juOhLNLrDUbbf4y1rSJAptOYbson1/bfLrarHCxm7YNu7U+g==",
+      "path": "nettopologysuite.features/1.15.0",
+      "hashPath": "nettopologysuite.features.1.15.0.nupkg.sha512"
+    },
+    "NetTopologySuite.IO.ShapeFile/1.15.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-YPDLO8p2K2RpSSpCFZJhu0Q07gS5UL32at/dWnRR52IAci+UqbpovJ6oyAp09c/9TVSyVLBGekT9LfmZZ11j0w==",
+      "path": "nettopologysuite.io.shapefile/1.15.3",
+      "hashPath": "nettopologysuite.io.shapefile.1.15.3.nupkg.sha512"
+    },
+    "ProjNET4GeoAPI/1.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Gw1fW7vQpGB23XZJepG9Cvo2bjpPKuddmsb8+Bwap6KYJdEYWwqHIr+6YP3e391h0ksf6t8mzvj3FA0U/7hUfA==",
+      "path": "projnet4geoapi/1.4.1",
+      "hashPath": "projnet4geoapi.1.4.1.nupkg.sha512"
+    },
+    "System.Text.Encoding.CodePages/4.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6JX7ZdaceBiLKLkYt8zJcp4xTJd1uYyXXEkPw6mnlUIjh1gZPIVKPtRXPmY5kLf6DwZmf5YLwR3QUrRonl7l0A==",
+      "path": "system.text.encoding.codepages/4.4.0",
+      "hashPath": "system.text.encoding.codepages.4.4.0.nupkg.sha512"
+    }
+  }
+}

@@ -1,0 +1,527 @@
+-- DELETE ALL TABLES
+*** INTENTIONAL PUT HERE TO PREVENT FROM DELETE ***
+DELETE FROM public."User";
+DELETE FROM public."Project";
+DELETE FROM public."Solution";
+DELETE FROM public."SolutionLegalSubDivisions";
+DELETE FROM public."SolutionParcels";
+DELETE FROM public."SolutionModelComponents";
+
+
+-- Insert 2 users (1 - watershed manager, 2 - municipality manager)
+INSERT INTO public."User"(
+"Id", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp",
+"ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", 
+"AccessFailedCount", "FirstName", "LastName", "Active", "Address1", "Address2", "PostalCode", "Municipality",
+"City", "ProvinceId", "DateOfBirth", "TaxRollNumber", "DriverLicense", "LastFourDigitOfSIN", "Organization",
+"LastModified", "UserTypeId")
+VALUES (1, 'demoWatershedManager', 'DEMOWATERSHEDManager', 'wmanager@esat.com', 'WMANAGER@ESAT.COM', false, 
+'AQAAAAEAACcQAAAAEDHpshdeIRFX2/apvuh0vapubbBBB+F+eCqrGzFTYSFYv4AfIWipusCbqUsY7UPknA==',
+'52HRJQQOOAZ2SOK3ZVH7JB53356QT27E', '64c538d3-6b43-4515-83ed-16170438192b', null, false, false, null,
+true, 0, 'Watershed', 'Manager', false,null,null,null,null,null, 1,null,null,null,null,null, '0001-01-01 00:00:00', 2);
+
+INSERT INTO public."User"(
+"Id", "UserName", "NormalizedUserName", "Email", "NormalizedEmail", "EmailConfirmed", "PasswordHash", "SecurityStamp",
+"ConcurrencyStamp", "PhoneNumber", "PhoneNumberConfirmed", "TwoFactorEnabled", "LockoutEnd", "LockoutEnabled", 
+"AccessFailedCount", "FirstName", "LastName", "Active", "Address1", "Address2", "PostalCode", "Municipality",
+"City", "ProvinceId", "DateOfBirth", "TaxRollNumber", "DriverLicense", "LastFourDigitOfSIN", "Organization",
+"LastModified", "UserTypeId")
+VALUES (2, 'demoMunicipalityManager', 'DEMOMUNICIPALITYMANAGER', 'mmanager@esat.com', 'MMANAGER@ESAT.COM', false, 
+'AQAAAAEAACcQAAAAEFVGk+4h+LCk4Dsn5KqeAFLMYU4by8ItwajDiIDatsyeymKOUQrCuqZCDnlLsqGjEw==',
+'DGLLWARO2YG5CFN3QXDPBWAFGC4BFII3', 'd078888b-e54b-4104-bfb0-76b40c638350', null, false, false, null,
+true, 0, 'Municipality', 'Manager', false,null,null,null,null,null, 1,null,null,null,null,null, '0001-01-01 00:00:00', 3);
+
+-- Insert UserMunicipalities
+INSERT INTO public."UserMunicipalities"
+	SELECT 
+		row_number() over () as "Id", 
+		U."Id" as "UserId", 
+		M."Id" as "MunicipalityId" 
+	FROM
+		public."User" AS U 
+		INNER JOIN 
+		public."Municipality" AS M 
+		ON U."UserName" != M."Name";
+
+-- Insert UserWatersheds
+INSERT INTO public."UserWatersheds"
+	SELECT 
+		row_number() over () as "Id", 
+		U."Id" as "UserId", 
+		W."Id" as "WatershedId" 
+	FROM
+		public."User" AS U 
+		INNER JOIN 
+		public."Watershed" AS W 
+		ON U."UserName" != W."Name";
+
+-- Insert UserParcels
+INSERT INTO public."UserParcels"
+	SELECT 
+		row_number() over () as "Id", 
+		U."Id" as "UserId", 
+		P."Id" as "ParcelId" 
+	FROM
+		public."User" AS U 
+		INNER JOIN 
+		public."Parcel" AS P 
+		ON U."UserName" != P."FullDescription";
+
+-- Insert projects
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_GWW_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_MI48H_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_GWW_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_MI48H_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_GWW_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_MI48H_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_GWW_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_MI48H_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_GWW_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_MI48H_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_GWW_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_MI48H_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_GWW_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_MI48H_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_GWW_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_MI48H_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_GWW_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_MI48H_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_GWW_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_MI48H_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_GWW_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_MI48H_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_GWW_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_MI48H_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_GWW_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_MI48H_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_GWW_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_MI48H_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_GWW_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_MI48H_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_GWW_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_MI48H_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_ISWET_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_ISWET_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_ISWET_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_ISWET_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_ISWET_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_ISWET_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_ISWET_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_ISWET_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_ISWET_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_ISWET_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_ISWET_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_ISWET_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_ISWET_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_ISWET_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_ISWET_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_ISWET_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_MI48H_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_MI48H_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_MI48H_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_MI48H_2001_2010_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,1,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_MI48H_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_MI48H_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_MI48H_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_MI48H_2002_2006_Watershed Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,1,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_MI48H_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_MI48H_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_MI48H_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_MI48H_2001_2010_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2001,2010,2,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_LSD_MI48H_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,1,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Conventional_Parcel_MI48H_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,1,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_LSD_MI48H_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,2,1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."Project" (SELECT Id,CONCAT('Proj_',Id), 'Existing_Parcel_MI48H_2002_2006_Municipality Manager','0001-01-01 00:00:00','0001-01-01 00:00:00', true, 2002,2006,2,2,2 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."Project" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+
+-- Insert ProjectMunicipalities
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 1, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 2, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 3, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 4, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 5, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 6, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 7, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 8, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 9, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 10, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 11, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 12, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 13, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 14, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 15, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 16, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 17, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 18, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 19, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 20, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 21, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 22, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 23, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 24, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 25, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 26, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 27, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 28, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 29, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 30, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 31, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 32, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 33, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 34, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 35, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 36, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 37, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 38, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 39, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 40, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 41, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 42, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 43, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 44, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 45, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 46, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 47, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 48, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 49, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 50, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 51, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 52, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 53, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 54, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 55, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 56, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 57, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 58, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 59, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 60, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 61, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 62, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 63, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectMunicipalities" (SELECT Id, 64, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectMunicipalities" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+
+-- Insert ProjectWatersheds
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 1, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 2, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 3, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 4, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 5, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 6, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 7, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 8, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 9, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 10, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 11, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 12, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 13, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 14, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 15, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 16, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 17, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 18, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 19, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 20, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 21, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 22, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 23, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 24, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 25, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 26, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 27, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 28, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 29, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 30, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 31, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 32, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 33, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 34, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 35, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 36, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 37, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 38, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 39, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 40, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 41, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 42, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 43, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 44, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 45, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 46, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 47, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 48, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 49, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 50, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 51, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 52, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 53, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 54, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 55, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 56, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 57, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 58, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 59, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 60, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 61, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 62, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 63, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+INSERT INTO public."ProjectWatersheds" (SELECT Id, 64, 1 FROM (SELECT GREATEST((SELECT MAX(p."Id") FROM public."ProjectWatersheds" AS p),0)+(ROW_NUMBER() OVER ()) AS Id) AS FOO);
+
+
+-- Insert solutions
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (1,1,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (2,2,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (3,3,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (4,4,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (5,5,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (6,6,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (7,7,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (8,8,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (9,9,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (10,10,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (11,11,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (12,12,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (13,13,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (14,14,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (15,15,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (16,16,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (17,17,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (18,18,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (19,19,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (20,20,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (21,21,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (22,22,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (23,23,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (24,24,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (25,25,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (26,26,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (27,27,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (28,28,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (29,29,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (30,30,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (31,31,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (32,32,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (33,33,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (34,34,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (35,35,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (36,36,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (37,37,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (38,38,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (39,39,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (40,40,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (41,41,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (42,42,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (43,43,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (44,44,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (45,45,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (46,46,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (47,47,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (48,48,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (49,49,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (50,50,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (51,51,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (52,52,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (53,53,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (54,54,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (55,55,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (56,56,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (57,57,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (58,58,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (59,59,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (60,60,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (61,61,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (62,62,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (63,63,false);
+INSERT INTO public."Solution" ("Id", "ProjectId", "FromOptimization") VALUES (64,64,false);
+
+
+-- Insert SolutionLegalSubdivisions
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 1 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 2 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 5 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 6 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 9 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 10 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 13 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 14 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 17 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 18 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 21 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 22 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 25 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 26 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 29 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 30 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 49 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 49 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 51 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 51 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 53 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 53 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 55 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 55 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 57 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 57 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 59 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 59 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 61 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 61 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 63 AS "SolutionId",6 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionLegalSubDivisions" SELECT (SELECT GREATEST((SELECT MAX(slsd."Id") FROM public."SolutionLegalSubDivisions" AS slsd),0))+(ROW_NUMBER() OVER ()) AS "Id", 63 AS "SolutionId",18 as "BMPCombinationId",LSDId AS "LegalSubDivisionId", true AS "IsSelected" FROM	(SELECT lsd."Id" AS LSDId FROM public."LegalSubDivision" AS lsd  WHERE lsd."Id" IN (SELECT DISTINCT sub."LegalSubDivisionId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+-- Insert SolutionLegalParcels
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 3 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 4 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 7 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 8 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 11 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 12 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 15 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 16 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 19 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 20 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 23 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 24 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 27 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 28 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 31 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 32 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 50 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 50 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 52 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 52 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 54 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 54 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 56 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 56 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 58 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 58 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 60 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 60 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 62 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 62 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 18))) as foo;
+
+
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 64 AS "SolutionId",6 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 6))) as foo;
+INSERT INTO public."SolutionParcels" SELECT (SELECT GREATEST((SELECT MAX(sp."Id") FROM public."SolutionParcels" AS sp),0))+(ROW_NUMBER() OVER ()) AS "Id", 64 AS "SolutionId",18 as "BMPCombinationId",PId AS "ParcelId", true AS "IsSelected" FROM	(SELECT p."Id" AS PId FROM public."Parcel" AS p WHERE p."Id" IN (SELECT DISTINCT sub."ParcelId" FROM public."SubArea" AS sub WHERE sub."ModelComponentId" IN (SELECT U."ModelComponentId" FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 18))) as foo;
+
+
+-- Insert SolutionModelComponents
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 33 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 34 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 35 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 36 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 37 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 38 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 39 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 40 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 41 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 42 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 43 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 44 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 45 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 46 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 1 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 47 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 1) as foo;
+INSERT INTO public."SolutionModelComponents" SELECT (SELECT GREATEST((SELECT MAX(smv."Id") FROM public."SolutionModelComponents" AS smv),0))+(ROW_NUMBER() OVER ()) AS "Id", 48 AS "SolutionId",1 as "BMPTypeId",MCId AS "ModelComponentId", true AS "IsSelected" FROM (SELECT DISTINCT U."ModelComponentId" AS MCId FROM public."UnitScenario" AS U WHERE U."ScenarioId" = 2 AND U."BMPCombinationId" = 1) as foo;
+

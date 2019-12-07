@@ -1,0 +1,17 @@
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\AgBMPTool.BLL.deps.json
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\AgBMPTool.BLL.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\AgBMPTool.BLL.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\AgBMPTool.DBModel.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\AgBMTool.DBL.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\AgBMPTool.DBModel.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\AgBMTool.DBL.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\obj\Debug\netcoreapp2.2\AgBMPTool.BLL.csprojAssemblyReference.cache
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\obj\Debug\netcoreapp2.2\AgBMPTool.BLL.csproj.CoreCompileInputs.cache
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\obj\Debug\netcoreapp2.2\AgBMPTool.BLL.AssemblyInfoInputs.cache
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\obj\Debug\netcoreapp2.2\AgBMPTool.BLL.AssemblyInfo.cs
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\obj\Debug\netcoreapp2.2\AgBMPTool.BLL.csproj.CopyComplete
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\obj\Debug\netcoreapp2.2\AgBMPTool.BLL.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\obj\Debug\netcoreapp2.2\AgBMPTool.BLL.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.BLL\bin\Debug\netcoreapp2.2\lpsolve55.dll

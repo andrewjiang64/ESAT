@@ -1,0 +1,120 @@
+.margin-top-15{
+  margin-top:15px;
+}
+
+.margin-top-5 {
+  margin-top: 5px;
+}
+
+.topDropDowns-overviewComp {
+  width: 180px;
+}
+
+.locationFilterDropDowns {
+  width: 160px;
+}
+
+#dvOverview {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  height: 100%; 
+}
+
+
+#dvbaselineDrpdwn {
+  top: 9%;
+  position: fixed;
+  z-index: 1;
+  left: 26.1%;
+  display: grid;
+  padding: 10px;
+  background-color: lightgray;
+  border-radius: 5px;
+}
+
+.width-5 {
+  float: left;
+  width: 5%;
+  margin-left: 2%;
+}
+
+.width-8 {
+  float: left;
+  width: 8%;
+}
+
+.width-101-overviewComp {
+  width: 101%;
+}
+
+.width-16{
+  float:left;
+  width:16%;
+}
+
+.width-50 {
+  float: right;
+  width: 50%;
+}
+
+.width-37 {
+  width: 37%;
+}
+
+.ng5-slider .ng5-slider-pointer {
+  cursor: pointer;
+  width: 22px !important;
+  height: 22px !important;
+  top: -9px !important;
+  background-color: #0db9f0;
+  z-index: 3;
+  border-radius: 16px;
+}
+
+  .ng5-slider .ng5-slider-pointer:after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    top: 7px !important;
+    left: 8px !important;
+    border-radius: 4px;
+    background: #fff;
+  }
+
+.dvLocationFilter {
+  top: 9%;
+  position: fixed;
+  z-index: 1;
+  right: 1.5%;
+  display: grid;
+  padding: 10px;
+  background-color: lightgray;
+  border-radius: 5px;
+}
+
+.dvLocationFilter label{
+  color:cornflowerblue;
+}
+
+  .dvLocationFilter span {
+    font-size: 15px !important;
+  }
+
+.padding-left-0 {
+  padding-left: 0px;
+}
+
+.padding-top-5 {
+  padding-top: 10px;
+}
+
+.loadingDiv {
+  position: absolute;
+  width: 97%;
+  z-index: 1;
+  background-color: lightgray;
+  opacity: 0.5;
+  padding-top: 50px;
+}

@@ -1,0 +1,10 @@
+.left-flex-container {
+  display: flex;
+}
+.left-flex-container > div {
+    margin-left: 10px;
+  }
+
+.right-flex-container {
+  display:flex;
+}

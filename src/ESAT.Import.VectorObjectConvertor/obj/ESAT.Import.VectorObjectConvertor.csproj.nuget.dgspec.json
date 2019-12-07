@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\andre\\Documents\\Guelph Project\\Ecosystem-Services-Assessment-Tool\\src\\ESAT.Import.VectorObjectConvertor\\ESAT.Import.VectorObjectConvertor.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\andre\\Documents\\Guelph Project\\Ecosystem-Services-Assessment-Tool\\src\\ESAT.Import.VectorObjectConvertor\\ESAT.Import.VectorObjectConvertor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\andre\\Documents\\Guelph Project\\Ecosystem-Services-Assessment-Tool\\src\\ESAT.Import.VectorObjectConvertor\\ESAT.Import.VectorObjectConvertor.csproj",
+        "projectName": "ESAT.Import.VectorObjectConvertor",
+        "projectPath": "C:\\Users\\andre\\Documents\\Guelph Project\\Ecosystem-Services-Assessment-Tool\\src\\ESAT.Import.VectorObjectConvertor\\ESAT.Import.VectorObjectConvertor.csproj",
+        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\andre\\Documents\\Guelph Project\\Ecosystem-Services-Assessment-Tool\\src\\ESAT.Import.VectorObjectConvertor\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "GeoAPI": {
+              "target": "Package",
+              "version": "[1.7.5, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "NetTopologySuite.IO.ShapeFile": {
+              "target": "Package",
+              "version": "[1.15.3, )"
+            },
+            "ProjNET4GeoAPI": {
+              "target": "Package",
+              "version": "[1.4.1, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

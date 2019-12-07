@@ -1,0 +1,199 @@
+.projects-icon {
+  content: url('../../icons/Projects.png');
+  transform: scale(1.2);
+}
+
+.project-icon {
+  content: url('../../icons/Individual_project.png');
+  transform: scale(1.2);
+}
+
+.overview-icon {
+  content: url('../../icons/overview.png');
+  transform: scale(1.2);
+}
+
+.bso-icon {
+  content: url('../../icons/bmp_selection_overview.png');
+  transform: scale(1.2);
+}
+
+.bsair-icon {
+  content: url('../../icons/bmp_scope_and_intelligent_recommendation.png');
+  transform: scale(1.2);
+}
+
+.baseline-icon {
+  content: url('../../icons/baseline.png');
+  transform: scale(1.2);
+}
+
+.ASNL-icon {
+  content: url('../../icons/ASNL.png');
+  transform: scale(1.2);
+}
+
+.ASPL-icon {
+  content: url('../../icons/ASPL.png');
+  transform: scale(1.2);
+}
+
+.CLDR-icon {
+  content: url('../../icons/CLDR.png');
+  transform: scale(1.2);
+}
+
+.CRRO-icon {
+  content: url('../../icons/CRRO.png');
+  transform: scale(1.2);
+}
+
+.CSTL-icon {
+  content: url('../../icons/CRRO.png');
+  transform: scale(1.2);
+}
+.CVCR-icon {
+  content: url('../../icons/CVCR.png');
+  transform: scale(1.2);
+}
+.DGOT-icon {
+  content: url('../../icons/DGOT.png');
+  transform: scale(1.2);
+}
+.FDLT-icon {
+  content: url('../../icons/FDLT.png');
+  transform: scale(1.2);
+}
+.FERMG-icon {
+  content: url('../../icons/FERMG.png');
+  transform: scale(1.2);
+}
+.FLDV-icon {
+  content: url('../../icons/FLDV.png');
+  transform: scale(1.2);
+}
+.FRCV-icon {
+  content: url('../../icons/FRCV.png');
+  transform: scale(1.2);
+}
+.GWW-icon {
+  content: url('../../icons/GWW.png');
+  transform: scale(1.2);
+}
+.IRRMG-icon {
+  content: url('../../icons/IRRMG.png');
+  transform: scale(1.2);
+}
+.ISWET-icon {
+  content: url('../../icons/ISWET.png');
+  transform: scale(1.2);
+}
+.LAKE-icon {
+  content: url('../../icons/LAKE.png');
+  transform: scale(1.2);
+}
+.MASB-icon {
+  content: url('../../icons/MASB.png');
+  transform: scale(1.2);
+}
+.MCBI-icon {
+  content: url('../../icons/MCBI.png');
+  transform: scale(1.2);
+}
+.MI48H-icon {
+  content: url('../../icons/MI48H.png');
+  transform: scale(1.2);
+}
+.MSCD-icon {
+  content: url('../../icons/MSCD.png');
+  transform: scale(1.2);
+}
+.MTHS-icon {
+  content: url('../../icons/MTHS.png');
+  transform: scale(1.2);
+}
+.NAOS-icon {
+  content: url('../../icons/NAOS.png');
+  transform: scale(1.2);
+}
+.OFSW-icon {
+  content: url('../../icons/OFSW.png');
+  transform: scale(1.2);
+}
+.PSTPS-icon {
+  content: url('../../icons/PSTPS.png');
+  transform: scale(1.2);
+}
+.PTSR-icon {
+  content: url('../../icons/PTSR.png');
+  transform: scale(1.2);
+}
+.RDMG-icon {
+  content: url('../../icons/RDMG.png');
+  transform: scale(1.2);
+}
+.RESV-icon {
+  content: url('../../icons/RESV.png');
+  transform: scale(1.2);
+}
+.RIBUF-icon {
+  content: url('../../icons/RIBUF.png');
+  transform: scale(1.2);
+}
+.RIWET-icon {
+  content: url('../../icons/RIWET.png');
+  transform: scale(1.2);
+}
+.RKCH-icon {
+  content: url('../../icons/RKCH.png');
+  transform: scale(1.2);
+}
+.ROGZ-icon {
+  content: url('../../icons/ROGZ.png');
+  transform: scale(1.2);
+}
+.SAFA-icon {
+  content: url('../../icons/SAFA.png');
+  transform: scale(1.2);
+}
+.SAMG-icon {
+  content: url('../../icons/SAMG.png');
+  transform: scale(1.2);
+}
+.SMDM-icon {
+  content: url('../../icons/SMDM.png');
+  transform: scale(1.2);
+}
+.SUNA-icon {
+  content: url('../../icons/SUNA.png');
+  transform: scale(1.2);
+}
+.TERR-icon {
+  content: url('../../icons/TERR.png');
+  transform: scale(1.2);
+}
+.TLDMG-icon {
+  content: url('../../icons/TLDMG.png');
+  transform: scale(1.2);
+}
+.VFST-icon {
+  content: url('../../icons/VFST.png');
+  transform: scale(1.2);
+}
+.WASCOB-icon {
+  content: url('../../icons/WASCOB.png');
+  transform: scale(1.2);
+}
+.WDBR-icon {
+  content: url('../../icons/WDBR.png');
+  transform: scale(1.2);
+}
+.WSMG-icon {
+  content: url('../../icons/WSMG.png');
+  transform: scale(1.2);
+}
+.AOPANoMASB-icon {
+  content: url('../../icons/AOPANoMASB.png');
+  transform: scale(1.2);
+}
+

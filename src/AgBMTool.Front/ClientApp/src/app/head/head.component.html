@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark indigo back-ground-color">
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" style="padding-left:10px">
+        <font class="font-color">Logo</font>
+      </li>
+      <li class="nav-item" style="padding-left:10px">
+        <font class="font-color">Ecosystem Services Assessment Tool </font>
+      </li>
+      <li class="nav-item" style="padding-left:10px">
+        <font class="font-color">{{name}}</font>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="nav-item">
+        <span class="fa fa-question-circle fa-2x" style="padding:8px;"></span>
+      </li>
+      <li class="nav-item">
+        <span class="fa fa-smile fa-2x" style="padding:8px;"></span>
+      </li>
+      <li class="nav-item">
+        <div style="padding: 4px 8px 0 8px;font-size: 13px;">
+          <div class="row" style="padding-left:8px; padding-right:8px;">
+            <font class="font-color">{{userName}}</font>
+          </div>
+          <div class="row" style="padding-left:8px; padding-right:8px;">
+            <div class="col col-sm-3"></div>
+            <font class="font-color">{{userCompany}}</font>
+          </div>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link dropdown-toggle fa fa-user-circle fa-2x" data-target="#navContent" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" id="navContent" style="">
+          <a class="dropdown-item" style="font-size:small; cursor:pointer;">Change Password</a>
+          <a class="dropdown-item" style="font-size:small; cursor:pointer;" (click)="onLogout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+
+

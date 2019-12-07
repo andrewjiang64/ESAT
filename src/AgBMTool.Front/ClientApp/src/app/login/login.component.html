@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Ecosystem Services Assessment Tool</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+  <video autoplay muted loop id="BackgroundVideo">
+    <source src="BackGround.mp4" type="video/mp4">
+  </video>
+  <div class="container" id="loginDiv">
+    <div class="rows">
+      <div class="row loginPanel"></div>
+      <div class="col-md-12 col-md-offset-12">
+        <div class="login-panel panel panel-default">
+          <div class="site-logo"></div>
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              Sign in to Ecosystem Services Assessment Tool
+            </h4>
+          </div>
+          <div class="panel-body">
+            <form #f="ngForm" novalidate (ngSubmit)="onSubmit()">
+              <fieldset>
+                <div class="form-group">
+                  <b>Email address</b>
+                  <input autofocus type="text" class="form-control" name="Username" [(ngModel)]="LoginModel.Username" maxlength="50"
+                         #refUsername="ngModel" id="Username" required>
+                  <div *ngIf="!refUsername.valid  && (refUsername.dirty || refUsername.touched)" class="alert alert-danger">
+                    <div [hidden]="!refUsername.errors.required">
+                      Email address is required
+                    </div>
+                  </div>
+
+                </div>
+                <div class="form-group">
+                  <b>Password</b>
+                  <input autofocus type="password" class="form-control" name="Password" [(ngModel)]="LoginModel.Password" maxlength="50"
+                         #refPassword="ngModel" id="Password" required>
+                  <div *ngIf="!refPassword.valid  && (refPassword.dirty || refPassword.touched)" class="alert alert-danger">
+                    <div [hidden]="!refPassword.errors.required">
+                      Password is required
+                    </div>
+                  </div>
+                </div>
+                <!-- Change this to a button or input when using this as a form -->
+                <button type="submit" [disabled]="!f.form.valid" class="btn btn-primary btn-lg btn-block">Sign in</button>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

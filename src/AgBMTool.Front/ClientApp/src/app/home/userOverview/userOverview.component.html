@@ -1,0 +1,86 @@
+<div id="dvOverview">
+
+  <div id="dvBaselineDropdown">
+    <div id="dvbaselineDrpdwn">
+      <div class="row width-101-overviewComp">
+        <div class="col-md-5">
+          <span>Baseline</span>
+        </div>
+        <div class="col-md-4 padding-left-0">
+          <kendo-dropdownlist [data]="baselineDropdown" textField="itemName" valueField="itemId" [valuePrimitive]="true" [(ngModel)]="baselineDropdownSelectedValue"
+                              (valueChange)="BaselineChange($event)" class="topDropDowns-overviewComp">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row width-101-overviewComp padding-top-5">
+        <div class="col-md-5">
+          <span>Spatial Scale</span>
+        </div>
+        <div class="col-md-4 padding-left-0">
+          <kendo-dropdownlist [data]="summarizationDropdown" textField="itemName" valueField="itemId" [valuePrimitive]="true" [(ngModel)]="summarizationDropdownSelectedValue" (valueChange)="SummarizationChange($event)" class="topDropDowns-overviewComp">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="margin-top-5">
+        <ng5-slider [(value)]="minYear" [(highValue)]="maxYear" [options]="sliderOption" class="slider-label-color" (mouseup)="sliderChangeEvent()"></ng5-slider>
+      </div>
+    </div>
+    <!--<div class="dvSlider" style="width:100%;">
+  <div class="width-50 k-float-left">
+  <div class="width-37 k-float-left margin-top-15">
+
+  </div>
+  </div>
+  </div>-->
+    <div class="dvLocationFilter" [hidden]="showLocationFilter">
+      <label>Location filter</label>
+      <div class="row">
+        <div class="col-md-5">
+          <span>Municipality</span>
+        </div>
+        <div class="col-md-7 padding-left-0">
+          <kendo-dropdownlist [data]="municipalityDropdown" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" (valueChange)="municipalityChange($event)" [(ngModel)]="municipalitySelectedItem" class="locationFilterDropDowns">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row padding-top-5">
+        <div class="col-md-5">
+          <span>Watershed</span>
+        </div>
+        <div class="col-md-7 padding-left-0">
+          <kendo-dropdownlist [data]="watershedDropdown" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" (valueChange)="watershedChange($event)" [(ngModel)]="watershedSelectedItem" class="locationFilterDropDowns">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row padding-top-5">
+        <div class="col-md-5">
+          <span>Subwatershed</span>
+        </div>
+        <div class="col-md-7 padding-left-0">
+          <kendo-dropdownlist [data]="subwatershedDropdown" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" (valueChange)="subWatershedChange($event)" [(ngModel)]="subWatershedSelectedItem" class="locationFilterDropDowns">
+          </kendo-dropdownlist>
+        </div>
+      </div>
+    </div>
+    <div class="row height-60">
+      <div class="col-md-12" [style.height.px]="overviewMapHeight">
+        <app-map></app-map>
+      </div>
+    </div>
+
+       <div class="row height-40">
+         <div class="col-md-12">
+           <div *ngIf="!this.progressBarSummaryGridData" align="center" class="loadingDiv" [style.height.px]="overviewGridHeight">
+             <span class="k-icon k-i-loading" style="font-size: 50px;"></span>
+           </div>
+           <kendo-grid [data]="summaryGridData" (scrollBottom)="loadMore()" [style.height.px]="overviewGridHeight" [pageable]="false" [selectable]="{ mode: 'single' }" [kendoGridSelectBy]="'id'" [selectedKeys]="selectRowById" (selectedKeysChange)="onSelectedKeysChange($event)" [sortable]="true" [filterable]="false" style="font-size:x-small">
+             <kendo-grid-column *ngFor="let column of summaryGridColumns" field="{{column.fieldName}}" title="{{column.fieldTitle}}" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}" [width]="90">
+             </kendo-grid-column>
+
+           </kendo-grid>
+         </div>
+     </div>
+
+  </div>
+
+</div>

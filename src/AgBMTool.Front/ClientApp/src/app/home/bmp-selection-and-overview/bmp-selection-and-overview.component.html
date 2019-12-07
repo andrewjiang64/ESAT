@@ -1,0 +1,202 @@
+<div class="row">
+  <div [ngClass]='displayMiddleDivClass'>
+    <div class="row height-60">
+      <div class="col-md-12" [style.height.px]="baseLineInfoMapHeight">
+        <button type="button" class="btn btn-sm rightDivBtn" (click)="showHideRightPanel()">{{buttonText}}</button>
+        <app-map></app-map>
+      </div>
+    </div>
+    <div class="row height-40" [hidden]="isBMPTypeList">
+      <div class="col-md-12">
+        <div class="costAndEffectivenessClass">
+          <div class="costAndEffectivenessLabelClass">
+            Cost and Effectiveness <sup>(?)</sup>
+          </div>
+          <div class="resultVariableTypeClass">
+            <kendo-dropdownlist [data]="scenarioModelResultVariableTypeChart" style="height: 24px;" textField="itemName" valueField="itemId" [valuePrimitive]="true" [(ngModel)]="scenarioModelResultVariableTypeChartSelectedValue" (valueChange)="FilterSummaryGrid($event)" class="topDropDowns">
+            </kendo-dropdownlist>
+          </div>
+          <div *ngIf="showLocationType" class="locationtypeClass">
+            <kendo-dropdownlist [data]="bmpEffectivenessLocationType" style="height: 24px;" textField="itemName" valueField="itemId" [valuePrimitive]="true" [(ngModel)]="bmpEffectivenessLocationTypeSelectedValue" (valueChange)="bmpEffectivenessLocationTypeChange($event)" class="topDropDowns">
+            </kendo-dropdownlist>
+          </div>
+        </div>
+        <kendo-tabstrip [style.height.px]="tabStripHeight" (tabSelect)="ShowLocationTypeDropdown($event);">
+          <kendo-tabstrip-tab [title]="'Table'" [selected]="true">
+            <ng-template kendoTabContent>
+              <div *ngIf="!this.progressBarSummaryGridData" align="center" class="loadingDiv" [style.height.px]="tabStripGridHeight">
+                <span class="k-icon k-i-loading" style="font-size: 50px;"></span>
+              </div>
+              <p id="bmpScopeSummaryGrid">
+                <kendo-grid [kendoGridBinding]="summaryGridData" [style.height.px]="tabStripGridHeight" [selectable]="true" [rowClass]="rowCallback"
+                            [kendoGridSelectBy]="'locationid'" [selectedKeys]="selectRowById" (selectedKeysChange)="onSelectedKeysChange($event)"
+                            [pageable]="false" [sortable]="true" [filterable]="false" style="font-size:x-small">
+                  <kendo-grid-column field="isselected" title="Select" width="60" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}">
+                    <ng-template kendoGridCellTemplate let-dataItem>
+                      <input type="checkbox" class="{{dataItem.isselectable ? '' : 'displayCheckbox'}}" [checked]="dataItem.isselected" (change)="onselctionandoverviewGridCheckboxValueChange(dataItem)" />
+                    </ng-template>
+                  </kendo-grid-column>
+                  <kendo-grid-column *ngFor="let column of summaryGridColumns" field="{{column.fieldName}}" [hidden]="CheckIfColumnisHidden(column)" title="{{column.fieldTitle}}"
+                                     [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}">
+                  </kendo-grid-column>
+                </kendo-grid>
+              </p>
+            </ng-template>
+          </kendo-tabstrip-tab>
+          <kendo-tabstrip-tab [title]="'Chart'">
+            <ng-template kendoTabContent>
+
+              <kendo-chart (selectEnd)="onSelectEnd($event)" [style.height.px]="tabStripChartHeight"
+                           [transitions]="transitions"
+                           [categoryAxis]="[
+                           {categories: categories, min: min, max: max, labels: { step: step }, majorGridLines: { step: step }, majorTicks: { step: step }, axisCrossingValue: [0, 100000]},
+                           {categories: categories, name: 'navigatorAxis', labels: { visible: false, step: navigatorStep }, majorGridLines: { step: navigatorStep }, majorTicks: { step: navigatorStep },
+                              pane: 'navigator', select: { from: min, to: max } }
+                              ]"
+                           [valueAxis]="valueAxis"
+                           [panes]="[{}, { name: 'navigator', height: 60 }]">
+                <kendo-chart-tooltip>
+                </kendo-chart-tooltip>
+                <kendo-chart-area background="#1E1E1E">
+                </kendo-chart-area>
+                <kendo-chart-series>
+                  <kendo-chart-series-item categoryField="category"
+                                           [data]="effectinessData"
+                                           [color]="color">
+                  </kendo-chart-series-item>
+                  <kendo-chart-series-item type="area"
+                                           [data]="acumulatedData"
+                                           [color]="lightgreen">
+                    <kendo-chart-series-item-tooltip format="{0} %">
+                    </kendo-chart-series-item-tooltip>
+                  </kendo-chart-series-item>
+
+                  <kendo-chart-series-item type="column" style="smooth" [color]="locationTypeSelectionColor" [data]="categories" axis="valueNavigatorAxis" categoryAxis="navigatorAxis">
+                  </kendo-chart-series-item>
+
+                </kendo-chart-series>
+              </kendo-chart>
+            </ng-template>
+          </kendo-tabstrip-tab>
+        </kendo-tabstrip>
+      </div>
+    </div>
+    <div class="row height-40" [hidden]="!isBMPTypeList">
+      <div class="col-md-12">
+        <div *ngIf="!this.progressBarSummaryGridData" align="center" class="loadingDiv" [style.height.px]="tabStripGridHeight">
+          <span class="k-icon k-i-loading" style="font-size: 50px;"></span>
+        </div>
+        <kendo-grid [data]="fieldBMPSummaryGridData" (scrollBottom)="loadMoreFieldBMPSummary()" [style.height.px]="tabStripGridHeight" [selectable]="true" [rowClass]="rowCallback"
+                    [pageable]="false" [sortable]="true" [filterable]="false" style="font-size:x-small">
+          <kendo-grid-column field="lsdOrParcelId" title="{{fieldBMPSummaryLevel}}" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          <kendo-grid-column field="farmId" title="Farm" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          <kendo-grid-column field="lsdOrParcelBmp" title="{{fieldBMPSummaryLevel}} BMP" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          <kendo-grid-column field="structuralBmp" title="Structural BMP" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}">
+          </kendo-grid-column>
+          <kendo-grid-column field="cost" title="Cost($)" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}">
+          </kendo-grid-column>
+        </kendo-grid>
+      </div>
+    </div>
+
+  </div>
+
+  <div [ngClass]='displayRightDivClass'>
+    <div [hidden]="isBMPTypeList">
+      <div class="row padding-top-5 padding-left-0">
+        Quick Selection
+      </div>
+      <div class="row padding-top-5">
+        <div class="col-md-5 padding-left-0">
+          Municipality
+        </div>
+        <div class="col-md-7 padding-left-0">
+          <kendo-dropdownlist [data]="municipalityList" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" [(ngModel)]="municipalitySelectedItem" class="inputWidth"
+                              (valueChange)="municipalityChange($event)"></kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row padding-top-5">
+        <div class="col-md-5 padding-left-0">
+          Watershed
+        </div>
+        <div class="col-md-7 padding-left-0">
+          <kendo-dropdownlist [data]="watershedList" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" [(ngModel)]="watershedSelectedItem"
+                              class="inputWidth" (valueChange)="watershedChange($event)"></kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row padding-top-5">
+        <div class="col-md-5 padding-left-0">
+          Subwatershed
+        </div>
+        <div class="col-md-7 padding-left-0">
+          <kendo-dropdownlist [data]="subWatershedList" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" [(ngModel)]="subWatershedSelectedItem"
+                              class="inputWidth" (valueChange)="subWatershedChange($event)"></kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row padding-top-5">
+        <div class="col-md-5 padding-left-0">
+          Investor
+        </div>
+        <div class="col-md-7 padding-left-0">
+            <kendo-dropdownlist [data]="investorList" [textField]="'name'" [valueField]="'id'" [valuePrimitive]="true" [(ngModel)]="selectedinvestorId"
+                    class="inputWidth" ></kendo-dropdownlist>
+        </div>
+      </div>
+      <div class="row padding-top-5">
+        <div class="col-md-6 padding-left-0">
+          <button type="button" class="btn btn-primary btn-sm btn-block width-100" (click)="selectAll()">Select All</button>
+        </div>
+        <div class="col-md-6 padding-left-0">
+          <button type="button" class="btn btn-primary btn-sm btn-block width-100" (click)="deselectAll()">Deselect All</button>
+        </div>
+      </div>
+    </div>
+    <div class="padding-top-5">
+      <div class="row padding-top-5">
+        <div class="col-md-12 padding-left-0">
+          BMP summary <sup>(?)</sup>
+        </div>
+        <div class="col-md-12 padding-left-0">
+          <kendo-grid [data]="bmpsummarygriddata" [style.height.px]="tabGridHeight" style="font-size:x-small">
+            <kendo-grid-column field="bmpTypeName" title="BMP" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+            <kendo-grid-column field="modelComponentCount" [width]="40" title="Count" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+            <kendo-grid-column field="totalArea" title="Area (ha)"  [width]="60" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+            <kendo-grid-column field="totalCost" title="Cost ($/ha)"  [width]="60" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}">
+            </kendo-grid-column>
+          </kendo-grid>
+          <table style="width:100%">
+            <tr>
+              <th style="background-color: #4472C4; color: #fff; font-size: x-small">Total</th>
+              <th style="background-color: #4472C4; color: #fff; font-size: x-small">{{bmpdatasum}}</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="row padding-top-5">
+        <div class="col-md-12 padding-left-0">
+          Effectiveness summary <sup>(?)</sup>
+        </div>
+        <div class="col-md-12 padding-left-0">
+          <kendo-grid [data]="bmpprojectEffectivenessSummary" [style.height.px]="tabGridHeight" style="font-size:x-small">
+            <kendo-grid-column field="parameter" title="Effectiveness" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+            <kendo-grid-column field="value" title="Value" [headerStyle]="{'background-color': '#4472C4','color': '#fff','overflow': 'visible', 'white-space': 'normal', 'line-height': '1em'}"></kendo-grid-column>
+          </kendo-grid>
+        </div>
+      </div>
+    </div>
+    <div class="row padding-top-5" [hidden]="isBMPTypeList">
+      <div class="col-md-3"></div>
+      <div class="col-md-3 padding-left-0">
+        <button type="button" class="btn btn-primary btn-sm btn-block width-100" (click)="Export()">Export</button>
+      </div>
+    </div>
+    <div class="row padding-top-5" [hidden]="!isBMPTypeList">
+      <div class="col-md-3"></div>
+      <div class="col-md-3 padding-left-0">
+        <button type="button" class="btn btn-primary btn-sm btn-block width-100" (click)="Report()">Report</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+

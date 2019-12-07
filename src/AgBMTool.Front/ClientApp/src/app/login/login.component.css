@@ -1,0 +1,49 @@
+html, body {
+  position: relative;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+}
+
+.loginPanel {
+  position: absolute;
+  min-height: 100vh;
+  height: auto;
+  margin: 0;
+  background-color: white;
+  opacity: 0.3;
+}
+
+.panel-body fieldset {
+  margin: 0 20px 0 20px;
+}
+
+.site-logo {
+  margin: 25% 0 25% 0;
+  text-align: center;
+}
+
+.panel-title {
+  text-align: center;
+}
+
+#BackgroundVideo {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 100%;
+  opacity: 0.8;
+}
+
+#loginDiv {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 430px;
+  height: 100%;
+  margin: 0 auto;
+  background: rgba(255,255,255,.3);
+}

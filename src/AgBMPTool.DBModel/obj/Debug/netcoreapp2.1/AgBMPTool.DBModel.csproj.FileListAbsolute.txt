@@ -1,0 +1,12 @@
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\bin\Debug\netcoreapp2.1\AgBMPTool.DBModel.deps.json
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\bin\Debug\netcoreapp2.1\AgBMPTool.DBModel.runtimeconfig.json
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\bin\Debug\netcoreapp2.1\AgBMPTool.DBModel.runtimeconfig.dev.json
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\bin\Debug\netcoreapp2.1\AgBMPTool.DBModel.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\bin\Debug\netcoreapp2.1\AgBMPTool.DBModel.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\obj\Debug\netcoreapp2.1\AgBMPTool.DBModel.csproj.CoreCompileInputs.cache
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\obj\Debug\netcoreapp2.1\EFCoreNpgsqlNetTopologySuite.cs
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\obj\Debug\netcoreapp2.1\AgBMPTool.DBModel.AssemblyInfoInputs.cache
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\obj\Debug\netcoreapp2.1\AgBMPTool.DBModel.AssemblyInfo.cs
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\obj\Debug\netcoreapp2.1\AgBMPTool.DBModel.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\obj\Debug\netcoreapp2.1\AgBMPTool.DBModel.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\AgBMPTool.DBModel\obj\Debug\netcoreapp2.1\AgBMPTool.DBModel.csprojAssemblyReference.cache

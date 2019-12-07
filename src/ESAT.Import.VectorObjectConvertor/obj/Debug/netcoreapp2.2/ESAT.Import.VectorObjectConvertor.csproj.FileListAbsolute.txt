@@ -1,0 +1,9 @@
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\bin\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.deps.json
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\bin\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\bin\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\obj\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.csproj.CoreCompileInputs.cache
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\obj\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.AssemblyInfoInputs.cache
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\obj\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.AssemblyInfo.cs
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\obj\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.dll
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\obj\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.pdb
+C:\Users\andre\Documents\Guelph Project\Ecosystem-Services-Assessment-Tool\src\ESAT.Import.VectorObjectConvertor\obj\Debug\netcoreapp2.2\ESAT.Import.VectorObjectConvertor.csprojAssemblyReference.cache
