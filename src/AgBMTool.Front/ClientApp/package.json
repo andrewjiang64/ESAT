@@ -70,7 +70,7 @@
     "html2canvas": "^1.0.0-rc.5",
     "html2canvas-proxy": "^1.0.1",
     "jquery": "^3.4.1",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.3.1",
     "ng5-slider": "^1.2.4",
     "ngx-toastr": "^10.2.0",
     "popper.js": "^1.14.3",
