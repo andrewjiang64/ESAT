@@ -13,7 +13,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="1.15.4" />
     <PackageReference Include="NetTopologySuite.IO.ShapeFile" Version="1.15.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

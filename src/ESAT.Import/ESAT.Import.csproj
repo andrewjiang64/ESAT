@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="GDAL" Version="2.4.2" />
     <PackageReference Include="Gdal.Core" Version="1.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.2.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="2.2.4" />
     <PackageReference Include="NUnit" Version="3.12.0" />
